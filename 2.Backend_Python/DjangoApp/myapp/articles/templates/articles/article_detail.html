@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %} {{ article.title }} {% endblock title %}
+
+{% block content %}
+<h1>{{ article.title }}</h1>
+<p>Author: {{ article.author }}</p>
+<p>Created on: {{ article.created_at }}</p>
+
+<p>{{ article.text }}</p>
+
+{% if user.is_authenticated and user == article.author %}
+
+        <button class="green-button" onclick="window.location.href='{% url 'article_update' article.slug %}';">Update Article</button>
+
+
+    <form method="POST" action="{% url 'article_delete' article.slug %}">
+        {% csrf_token %}
+
+        <button type="submit" class="red-button">Delete Article</button>
+    </form>
+{% endif %}
+
+
+    <button class="gray-button" onclick="window.location.href='{% url 'articles_list' %}';">Back to Article List</button>
+
+{% endblock content %}

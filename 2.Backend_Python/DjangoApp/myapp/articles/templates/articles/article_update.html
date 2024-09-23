@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}Update Article: {{ article.title }} {% endblock title %}
+
+{% block content %}
+<h1>Update Article</h1>
+
+{% if form.errors %}
+    <p>Please correct the errors below:</p>
+    <ul>
+        {% for error in form.errors %}
+            <li>{{ error }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Update Article</button>
+</form>
+{% endblock content %}

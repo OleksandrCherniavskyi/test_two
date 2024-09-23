@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for articles title">
+
+<table id="myTable">
+  <tr class="header">
+
+    <th style="width:33%;">Article title</th>
+    <th style="width:33%;">Author</th>
+    <th style="width:33%;">Data</th>
+  </tr>
+  {% for article in articles %}
+    <tr id="article-{{ article.id }}">  <td><a href="{% url 'article_detail' article.slug %}">{{ article.title }}</a></td>
+      <td><p>{{ article.author }}</p></td>
+      <td><p>{{ article.created_at }}</p></td>
+    </tr>
+  {% endfor %}
+</table>
+
+<script>
+function myFunction() {
+  // Get the input value
+  var input, filter, table, tr, td, i;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("myTable");
+  tr = table.getElementsByTagName("tr");
+
+
+  // Loop through all table rows, and hide those that don't match the search query
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[0];
+  // Access first column (title)
+    if (td) {
+      if (td.textContent.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+{% if user.is_authenticated %}
+    <div class="button-group">
+        <button class="green-button" onclick="window.location.href='{% url 'article_create' %}';">Create New Article</button>
+    </div>
+
+{% endif %}
+{% endblock content %}
+
+
+
